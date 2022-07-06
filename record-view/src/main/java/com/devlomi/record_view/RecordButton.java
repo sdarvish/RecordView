@@ -46,12 +46,13 @@ public class RecordButton extends AppCompatImageView implements View.OnTouchList
     }
 
     private void init(Context context, AttributeSet attrs) {
+        float scaleUpTo = 1f;
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RecordButton);
 
             int imageResource = typedArray.getResourceId(R.styleable.RecordButton_mic_icon, -1);
             int sendResource = typedArray.getResourceId(R.styleable.RecordButton_send_icon, -1);
-            float scaleUpTo = typedArray.getFloat(R.styleable.RecordButton_scale_up_to, -1f);
+            scaleUpTo = typedArray.getFloat(R.styleable.RecordButton_scale_up_to, -1f);
 
             if (imageResource != -1) {
                 setTheImageResource(imageResource);
@@ -61,13 +62,13 @@ public class RecordButton extends AppCompatImageView implements View.OnTouchList
                 sendIcon = AppCompatResources.getDrawable(getContext(), sendResource);
             }
 
-            if (scaleUpTo != -1) {
-                setScaleUpTo(scaleUpTo);
-            }
             typedArray.recycle();
         }
 
         scaleAnim = new ScaleAnim(this);
+        if (scaleUpTo > 1) {
+            scaleAnim.setScaleUpTo(scaleUpTo);
+        }
 
         this.setOnTouchListener(this);
         this.setOnClickListener(this);
